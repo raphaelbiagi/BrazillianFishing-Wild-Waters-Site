@@ -1,0 +1,380 @@
+/* Brazilian Fishing: Wild Waters — site de divulgação
+   Paleta tirada do jogo: mata verde, rio barrento, dourado e laranja. */
+:root {
+  --noite: #0b1f1c;
+  --noite-2: #10302a;
+  --mata: #1d5a2c;
+  --folha: #4aa83a;
+  --folha-clara: #8fd24c;
+  --rio: #7a5a36;
+  --rio-escuro: #4e3a24;
+  --ouro: #f7c948;
+  --ouro-escuro: #e29a24;
+  --laranja: #d9661f;
+  --creme: #fff3c4;
+  --ceu: #2f78d6;
+  --texto: #e9f1df;
+  --fonte: "Pixelify Sans", "Press Start 2P", ui-monospace, monospace;
+}
+
+* { box-sizing: border-box; margin: 0; padding: 0; }
+html { scroll-behavior: smooth; scroll-padding-top: 70px; }
+body {
+  font-family: var(--fonte);
+  background: var(--noite);
+  color: var(--texto);
+  font-size: 18px;
+  line-height: 1.5;
+  overflow-x: hidden;
+}
+img { max-width: 100%; display: block; }
+.px { image-rendering: pixelated; image-rendering: crisp-edges; }
+a { color: inherit; }
+
+kbd {
+  font-family: var(--fonte);
+  background: var(--creme);
+  color: var(--noite);
+  border-bottom: 3px solid var(--ouro-escuro);
+  border-radius: 3px;
+  padding: 0 7px;
+  font-size: .85em;
+}
+
+/* ---------- botões (quadradões de pixel) ---------- */
+.btn {
+  --sombra: #6b3a0c;
+  display: inline-flex; align-items: center; gap: 10px;
+  font-family: var(--fonte); font-weight: 700; text-decoration: none;
+  letter-spacing: .04em; text-transform: uppercase;
+  padding: 10px 22px; cursor: pointer;
+  border: 4px solid var(--noite);
+  box-shadow: 0 6px 0 var(--sombra), 0 0 0 4px rgba(255,255,255,.0);
+  transition: transform .08s, box-shadow .08s, filter .15s;
+  clip-path: polygon(0 4px, 4px 4px, 4px 0, calc(100% - 4px) 0, calc(100% - 4px) 4px, 100% 4px,
+                     100% calc(100% - 4px), calc(100% - 4px) calc(100% - 4px), calc(100% - 4px) 100%,
+                     4px 100%, 4px calc(100% - 4px), 0 calc(100% - 4px));
+}
+.btn-gold { background: linear-gradient(var(--creme) 0 20%, var(--ouro) 20% 60%, var(--ouro-escuro) 60%); color: var(--noite); }
+.btn-escuro { background: var(--noite-2); color: var(--creme); --sombra: #000; border-color: #2c5b4d; }
+.btn:hover { transform: translateY(-3px); filter: brightness(1.1); }
+.btn:active { transform: translateY(4px); box-shadow: 0 2px 0 var(--sombra); }
+.btn-grande { font-size: 22px; padding: 14px 30px; }
+.btn-small { font-size: 15px; padding: 6px 14px; }
+.btn-icone { animation: baixar 1.2s ease-in-out infinite; }
+@keyframes baixar { 50% { transform: translateY(4px); } }
+
+/* ---------- menu ---------- */
+.nav {
+  position: fixed; inset: 0 0 auto 0; z-index: 50;
+  display: flex; justify-content: space-between; align-items: center;
+  padding: 10px clamp(14px, 4vw, 48px);
+  transition: background .25s, box-shadow .25s;
+}
+.nav.solido { background: rgba(11,31,28,.94); box-shadow: 0 4px 0 #000a; }
+.nav-logo { display: flex; align-items: center; gap: 10px; text-decoration: none; font-weight: 700; color: var(--ouro); letter-spacing: .06em; }
+.nav-logo img { width: 54px; height: 27px; }
+.nav-links { display: flex; align-items: center; gap: clamp(12px, 2.2vw, 28px); }
+.nav-links a:not(.btn) { text-decoration: none; opacity: .85; }
+.nav-links a:not(.btn):hover { color: var(--ouro); opacity: 1; }
+
+/* ---------- hero ---------- */
+.hero { position: relative; min-height: 100vh; display: grid; place-items: center; overflow: hidden; padding: 110px 20px 140px; isolation: isolate; }
+.hero-shade {
+  position: absolute; inset: 0; z-index: -2;
+  background:
+    radial-gradient(ellipse at 50% 45%, rgba(8,28,24,.45), rgba(8,28,24,.15) 45%, rgba(8,28,24,.55) 85%),
+    linear-gradient(rgba(11,31,28,.5), rgba(11,31,28,0) 25%, rgba(11,31,28,0) 70%, var(--noite));
+}
+#particulas { position: absolute; inset: 0; width: 100%; height: 100%; z-index: -1; pointer-events: none; }
+.hero-inner { text-align: center; max-width: 980px; }
+
+.logo-texto { display: flex; flex-direction: column; align-items: flex-start; line-height: .9; text-align: left; }
+.hero-frase { margin: 34px auto 28px; max-width: 640px; font-size: clamp(17px, 2.2vw, 22px); text-shadow: 0 2px 0 #000b; }
+.hero-frase strong { color: var(--ouro); font-weight: 700; }
+.hero-botoes { display: flex; gap: 22px; justify-content: center; flex-wrap: wrap; }
+.hero-nota { margin-top: 24px; opacity: .7; font-size: 15px; }
+
+/* faixa de água animada no pé do hero */
+.agua-faixa { position: absolute; left: 0; right: 0; bottom: 0; height: 64px; z-index: 1; overflow: hidden;
+  background: linear-gradient(var(--rio) 0 25%, var(--rio-escuro) 25%); }
+.agua-faixa div {
+  position: absolute; inset: 0 -64px 0 0;
+  background:
+    repeating-linear-gradient(90deg, transparent 0 22px, rgba(255,243,196,.55) 22px 38px, transparent 38px 90px) 0 12px / 90px 4px no-repeat repeat-x,
+    repeating-linear-gradient(90deg, transparent 0 50px, rgba(255,243,196,.35) 50px 62px, transparent 62px 130px) 0 34px / 130px 4px no-repeat repeat-x;
+  animation: correnteza 6s linear infinite;
+}
+.agua-faixa::before { content: ""; position: absolute; left: 0; right: 0; top: -16px; height: 16px;
+  background: linear-gradient(transparent, var(--noite)); opacity: 0; }
+@keyframes correnteza { to { transform: translateX(-130px); } }
+
+/* ---------- seções ---------- */
+.secao { padding: 96px 20px; position: relative; }
+.secao-escura { background: var(--noite-2); }
+.conteudo { max-width: 1120px; margin: 0 auto; }
+.selo {
+  display: inline-block; font-weight: 700; letter-spacing: .2em; font-size: 14px;
+  background: var(--ouro); color: var(--noite); padding: 2px 12px; margin-bottom: 14px;
+  box-shadow: 4px 4px 0 var(--laranja);
+}
+.titulo { font-size: clamp(30px, 5vw, 54px); line-height: 1.05; color: var(--creme); text-shadow: 0 4px 0 #000a; margin-bottom: 14px; }
+.intro { max-width: 640px; opacity: .85; margin-bottom: 44px; }
+
+/* revelar ao rolar */
+.reveal { opacity: 0; transform: translateY(28px); transition: opacity .7s ease-out, transform .7s cubic-bezier(.2, .8, .2, 1); }
+.reveal.visivel { opacity: 1; transform: none; }
+
+/* vistas */
+.vistas { display: grid; grid-template-columns: repeat(auto-fit, minmax(290px, 1fr)); gap: 30px; margin-top: 30px; }
+.vista { position: relative; }
+.vista h3 { font-size: 24px; color: var(--ouro); margin: 16px 0 6px; }
+.vista p { opacity: .85; }
+.numero {
+  position: absolute; top: -14px; left: -10px; z-index: 3;
+  width: 40px; height: 40px; display: grid; place-items: center;
+  background: var(--ouro); color: var(--noite); font-weight: 700; font-size: 22px;
+  border: 4px solid var(--noite); box-shadow: 3px 3px 0 var(--laranja);
+}
+.moldura {
+  position: relative; aspect-ratio: 16 / 10; overflow: hidden;
+  border: 6px solid var(--noite); outline: 4px solid var(--ouro-escuro);
+  box-shadow: 8px 8px 0 #000a; background: var(--rio);
+  transition: transform .2s;
+}
+.vista:hover .moldura { transform: translate(-3px, -5px) rotate(-.6deg); }
+.moldura img { width: 100%; height: 100%; object-fit: cover; }
+.moldura-rio img { object-position: 70% 40%; transform: scale(1.2); transform-origin: 70% 40%; animation: panorama 14s ease-in-out infinite alternate; }
+@keyframes panorama { from { object-position: 80% 0%; } to { object-position: 80% 100%; } }
+/* peixes */
+.peixes { display: grid; grid-template-columns: repeat(auto-fill, minmax(320px, 1fr)); gap: 26px; }
+.peixe {
+  position: relative; padding: 18px 18px 20px; cursor: default;
+  background: linear-gradient(180deg, #17463d, #0f2f29);
+  border: 4px solid #2c5b4d; box-shadow: 6px 6px 0 #000a;
+  transition: transform .15s, border-color .15s;
+}
+.peixe:hover { transform: translateY(-6px); border-color: var(--ouro); }
+.peixe-arte { height: 150px; display: grid; place-items: center; position: relative;
+  background: radial-gradient(ellipse at 50% 70%, rgba(143,210,76,.18), transparent 70%); }
+.peixe-arte img { width: 240px; image-rendering: pixelated; animation: flutuar 3.2s ease-in-out infinite; transition: transform .25s; }
+.peixe:hover .peixe-arte img { animation: nadar .45s ease-in-out infinite alternate; }
+@keyframes flutuar { 50% { transform: translateY(-8px) rotate(-1.5deg); } }
+@keyframes nadar { 0% { transform: rotate(-4deg) translateX(-4px); } 100% { transform: rotate(4deg) translateX(4px); } }
+.peixe h3 { font-size: 24px; color: var(--ouro); }
+.peixe .peso { display: inline-block; font-size: 14px; background: var(--noite); color: var(--creme); padding: 0 8px; margin: 4px 0 8px; border: 2px solid #2c5b4d; }
+.peixe p { font-size: 16px; opacity: .88; }
+.forca { display: flex; gap: 4px; margin-top: 12px; align-items: center; font-size: 13px; opacity: .85; }
+.forca i { width: 18px; height: 10px; background: #0b1f1c; border: 2px solid #2c5b4d; }
+.forca i.on { background: var(--laranja); border-color: #7a3500; }
+
+/* recursos */
+.recursos { display: grid; grid-template-columns: repeat(auto-fit, minmax(290px, 1fr)); gap: 24px; margin-top: 34px; }
+.recurso { padding: 22px; background: var(--noite-2); border: 4px solid #2c5b4d; box-shadow: 6px 6px 0 #000a; }
+.recurso h3 { color: var(--ouro); font-size: 22px; margin: 12px 0 6px; }
+.recurso p { font-size: 16px; opacity: .88; }
+.recurso-icone { width: 64px; height: 64px; display: grid; place-items: center; background: var(--noite); border: 4px solid var(--ouro-escuro);
+  font-size: 34px; color: var(--ouro); }
+.recurso-icone img { width: 56px; image-rendering: pixelated; }
+.iscas { display: flex; flex-wrap: wrap; justify-content: center; gap: 8px 22px; margin-top: 48px; padding: 18px; border-top: 4px dashed #2c5b4d; border-bottom: 4px dashed #2c5b4d; }
+.iscas figure { text-align: center; font-size: 14px; opacity: .9; }
+.iscas img { width: 72px; height: 72px; object-fit: contain; image-rendering: pixelated; transition: transform .2s; }
+.iscas figure:hover img { transform: translateY(-8px) rotate(8deg); }
+
+/* o rio */
+.secao-rio { background: linear-gradient(var(--noite), #1a3a1e 40%, var(--noite)); }
+.spots { display: grid; grid-template-columns: repeat(auto-fit, minmax(290px, 1fr)); gap: 24px; }
+.spot { padding: 22px; background: linear-gradient(180deg, #6a4e2f, #4f3a25); border: 4px solid var(--noite); outline: 3px solid var(--rio); box-shadow: 6px 6px 0 #000a; }
+.spot h3 { color: var(--creme); font-size: 24px; }
+.spot p { margin: 6px 0 10px; font-size: 16px; }
+.spot-peixes { display: flex; gap: 0; }
+.spot-peixes img { width: 33%; transition: transform .2s; }
+.spot-peixes img:hover { transform: translateY(-6px) scale(1.1); }
+
+/* baixar */
+.secao-baixar { background: linear-gradient(var(--noite), #0e3a2f); text-align: center; }
+.secao-baixar .conteudo { max-width: 920px; }
+.baixar-caixa {
+  display: flex; align-items: center; gap: 28px; text-align: left; flex-wrap: wrap; justify-content: center;
+  padding: 30px; margin: 30px 0; background: var(--noite); border: 6px solid var(--ouro-escuro); box-shadow: 10px 10px 0 #000a;
+}
+.baixar-peixe img { width: 240px; animation: flutuar 3s ease-in-out infinite; }
+.baixar-info { flex: 1; min-width: 260px; }
+.baixar-info h3 { font-size: 28px; color: var(--creme); margin-bottom: 8px; }
+.baixar-info small { background: var(--laranja); color: #fff; font-size: 14px; padding: 2px 8px; vertical-align: middle; margin-left: 6px; }
+.baixar-info ul { list-style: none; margin-bottom: 20px; }
+.baixar-info li::before { content: "▸ "; color: var(--ouro); }
+.passos { display: grid; grid-template-columns: repeat(auto-fit, minmax(190px, 1fr)); gap: 16px; text-align: left; }
+.passos div { padding: 14px; background: rgba(0,0,0,.28); border-left: 6px solid var(--ouro); }
+.passos b { display: inline-grid; place-items: center; width: 30px; height: 30px; background: var(--ouro); color: var(--noite); margin-bottom: 6px; }
+.passos p { font-size: 15px; }
+.passos em { color: var(--ouro); font-style: normal; }
+.aviso { margin-top: 28px; opacity: .65; font-size: 15px; }
+
+.rodape { text-align: center; padding: 40px 20px 50px; background: #07140f; border-top: 6px solid var(--ouro-escuro); }
+.rodape img { width: 120px; margin: 0 auto 10px; }
+.rodape .pequeno { opacity: .5; font-size: 14px; }
+
+/* ---------- celular ---------- */
+@media (max-width: 760px) {
+  body { font-size: 17px; }
+  .nav-links a:not(.btn) { display: none; }
+  .nav-logo span { display: none; }
+  .logo { flex-direction: column; }
+  .secao { padding: 70px 18px; }
+  .hero { padding-bottom: 120px; }
+}
+
+/* =================================================================
+   Versão 2: arte da briga do jogo, logo em letras e mais animação
+   ================================================================= */
+
+/* topo: o rio da briga, visto de cima, rodando num canvas */
+.hero-bg {
+  position: absolute; inset: 0; z-index: -3; width: 100%; height: 100%;
+  object-fit: cover; transform: scale(1.08); will-change: transform;
+}
+
+/* logo: o salto do dourado (folha da briga) + título */
+.logo { display: flex; align-items: center; justify-content: center; flex-wrap: wrap; }
+.logo-peixe { flex: none; width: clamp(340px, 50vw, 720px); margin: -60px -110px -60px -60px; animation: entraPeixe .9s cubic-bezier(.2, .8, .2, 1) both; }
+.logo-peixe canvas { width: 100%; height: auto; aspect-ratio: 330 / 194; }
+@keyframes entraPeixe { from { opacity: 0; transform: translateY(40px) scale(.6); } to { opacity: 1; transform: none; } }
+
+.logo-texto span { display: block; white-space: nowrap; }
+/* Cada letra tem três camadas: a própria (invisível, só ocupa o lugar),
+   ::before = contorno escuro + sombra dura, ::after = o dourado em faixas com o brilho passando. */
+.logo-texto em {
+  position: relative; display: inline-block; font-style: normal; font-weight: 700;
+  color: transparent; -webkit-text-fill-color: transparent;
+  animation: cai .55s cubic-bezier(.2, 1.6, .4, 1) both;
+}
+.logo-texto em::before, .logo-texto em::after { content: attr(data-t); position: absolute; left: 0; top: 0; }
+.logo-texto em::before {
+  -webkit-text-fill-color: var(--noite); color: var(--noite);
+  -webkit-text-stroke: .2em var(--noite); text-shadow: 0 .09em 0 #000;
+}
+.logo-texto em::after {
+  background:
+    linear-gradient(105deg, transparent 40%, rgba(255,255,255,.95) 48% 54%, transparent 62%) 200% 0 / 300% 100% no-repeat,
+    linear-gradient(#fff6b8 0 28%, #f9d04f 28% 52%, #eaa52a 52% 76%, #c47a1a 76%);
+  -webkit-background-clip: text; background-clip: text; -webkit-text-fill-color: transparent;
+  animation: reflexo 5s ease-in-out 2.5s infinite;
+}
+@keyframes reflexo { 0% { background-position: 200% 0, 0 0; } 30%, 100% { background-position: -100% 0, 0 0; } }
+@keyframes cai { from { opacity: 0; transform: translateY(-80px) rotate(-12deg); } to { opacity: 1; transform: none; } }
+.l1 { font-size: clamp(34px, 6.6vw, 86px); letter-spacing: .02em; }
+.l2 { font-size: clamp(44px, 9vw, 118px); letter-spacing: .01em; margin-top: .06em; }
+.l3 { font-size: clamp(18px, 3.2vw, 42px); letter-spacing: .1em; margin-top: .3em; }
+.l3 em::after { background: none; -webkit-text-fill-color: var(--creme); animation: none; }
+.l3 em::before { -webkit-text-stroke: .28em var(--noite); }
+
+.hero-frase, .hero-botoes, .hero-nota { animation: sobe .8s cubic-bezier(.2, .8, .2, 1) both; }
+.hero-frase { animation-delay: 1.6s; }
+.hero-botoes { animation-delay: 1.9s; }
+.hero-nota { animation-delay: 2.1s; }
+@keyframes sobe { from { opacity: 0; transform: translateY(30px); } to { opacity: 1; transform: none; } }
+
+/* botão dourado com brilho passando e pulsando */
+.btn-gold { position: relative; overflow: hidden; }
+.btn-gold::after {
+  content: ""; position: absolute; inset: 0; pointer-events: none;
+  background: linear-gradient(105deg, transparent 30%, rgba(255,255,255,.75) 50%, transparent 70%);
+  transform: translateX(-110%); will-change: transform;
+  animation: varre 3.2s cubic-bezier(.45, 0, .25, 1) infinite;
+}
+@keyframes varre { 0% { transform: translateX(-110%); } 45%, 100% { transform: translateX(110%); } }
+.btn-grande.btn-gold { animation: pulsa 2s ease-in-out infinite; }
+@keyframes pulsa { 50% { scale: 1.04; } }
+
+/* cartão 3 das vistas: a briga no canvas */
+/* aproxima a parte de baixo da cena, para o pescador e o peixe ficarem maiores */
+.moldura-briga canvas { position: absolute; left: 50%; bottom: 0; width: 140%; height: auto; aspect-ratio: 16 / 9; transform: translateX(-50%); }
+
+/* palco grande da briga com HUD */
+.palco {
+  position: relative; margin: 10px 0 40px; border: 6px solid var(--noite); outline: 4px solid var(--ouro-escuro);
+  box-shadow: 12px 12px 0 #000a; background: var(--rio); overflow: hidden;
+}
+.palco canvas { display: block; width: 100%; height: auto; aspect-ratio: 16 / 9; }
+.hud { position: absolute; inset: 0; pointer-events: none; font-weight: 700; }
+.hud-info {
+  position: absolute; top: 14px; left: 14px; display: flex; flex-direction: column;
+  background: rgba(11,31,28,.78); border: 3px solid var(--ouro-escuro); padding: 6px 12px; line-height: 1.2;
+}
+.hud-info b { color: var(--ouro); }
+.hud-info span { font-size: 15px; opacity: .85; }
+.hud-estado {
+  position: absolute; top: 14px; left: 50%; transform: translateX(-50%);
+  background: var(--ouro); color: var(--noite); padding: 4px 14px; border: 3px solid var(--noite);
+  box-shadow: 4px 4px 0 #000a; font-size: clamp(13px, 1.8vw, 20px); white-space: nowrap;
+}
+.hud-estado.corre, .hud-estado.salto { background: var(--laranja); color: #fff; }
+.hud-estado.cansado, .hud-estado.pego { background: var(--folha-clara); }
+.hud-estado.pop { animation: pop .35s cubic-bezier(.2, 1.6, .4, 1); }
+@keyframes pop { 0% { transform: translateX(-50%) scale(1.5); } 100% { transform: translateX(-50%) scale(1); } }
+.hud-tensao { position: absolute; right: 16px; top: 50%; transform: translateY(-50%); display: flex; flex-direction: column; align-items: center; gap: 6px; }
+.hud-tensao span { font-size: 12px; writing-mode: vertical-rl; transform: rotate(180deg); text-shadow: 0 2px 0 #000; letter-spacing: .15em; }
+.barra { position: relative; width: 22px; height: clamp(110px, 22vw, 220px); background: rgba(11,31,28,.8); border: 3px solid var(--creme); }
+.barra i { position: absolute; left: 0; right: 0; bottom: 0; top: 0; background: linear-gradient(var(--laranja), var(--ouro)); transform-origin: 50% 100%; transform: scaleY(0); will-change: transform; }
+.barra.perigo { animation: treme .12s steps(2) infinite; border-color: #ff5a3a; }
+.barra.perigo i { background: #ff5a3a; }
+@keyframes treme { 50% { transform: translateX(2px); } }
+
+/* números */
+.numeros { display: grid; grid-template-columns: repeat(auto-fit, minmax(170px, 1fr)); gap: 18px; }
+.numeros div { text-align: center; padding: 16px; background: var(--noite-2); border: 4px solid #2c5b4d; box-shadow: 6px 6px 0 #000a; }
+.numeros b { display: block; font-size: clamp(40px, 6vw, 64px); line-height: 1; color: var(--ouro); text-shadow: 0 4px 0 var(--laranja); }
+.numeros span { font-size: 15px; opacity: .85; }
+
+/* cardume: faixa de peixes nadando entre as seções */
+.cardume { overflow: hidden; padding: 18px 0; background: #5a4329; border-block: 4px solid var(--noite); box-shadow: inset 0 3px 0 var(--rio), inset 0 -3px 0 var(--rio); }
+.cardume-trilho { will-change: transform; display: flex; gap: 40px; width: max-content; animation: cardume 50s linear infinite; }
+.cardume-trilho img { width: 140px; height: 70px; image-rendering: pixelated; animation: rebola .9s ease-in-out infinite alternate; }
+.cardume-trilho img:nth-child(3n) { width: 110px; height: 55px; margin-top: 14px; }
+.cardume-trilho img:nth-child(4n) { margin-top: -8px; }
+@keyframes cardume { to { transform: translateX(-50%); } }
+@keyframes rebola { from { transform: translateY(-3px) rotate(-3deg); } to { transform: translateY(3px) rotate(3deg); } }
+
+/* linha de pesca da rolagem, com a isca descendo */
+.linha-rolagem { position: fixed; top: 0; bottom: 0; right: 10px; width: 2px; z-index: 60; pointer-events: none; }
+.linha-rolagem i { position: absolute; top: 0; left: 0; width: 2px; height: 100%; transform-origin: 50% 0; transform: scaleY(0); will-change: transform; background: rgba(242,244,238,.8); }
+.linha-rolagem img { position: absolute; top: -6px; left: -15px; will-change: transform; width: 32px; height: 32px; image-rendering: pixelated; animation: balanca 1.4s ease-in-out infinite alternate; transform-origin: 50% 0; }
+@keyframes balanca { from { rotate: -10deg; } to { rotate: 10deg; } }
+
+/* brilho que segue o mouse nos cartões */
+.peixe, .recurso, .spot { transition: transform .15s, border-color .15s; }
+.peixe::after, .recurso::after {
+  content: ""; position: absolute; inset: 0; pointer-events: none; opacity: 0; transition: opacity .2s;
+  background: radial-gradient(circle at var(--mx, 50%) var(--my, 50%), rgba(255,226,122,.18), transparent 55%);
+}
+.recurso { position: relative; }
+.peixe:hover::after, .recurso:hover::after { opacity: 1; }
+.recurso:hover .recurso-icone { animation: chacoalha .4s ease-in-out; }
+@keyframes chacoalha { 25% { rotate: -10deg; } 75% { rotate: 10deg; } }
+.peixe .forca span { display: flex; gap: 4px; }
+.peixe:hover .forca i.on { animation: acende .6s steps(2) infinite; }
+@keyframes acende { 50% { background: var(--ouro); } }
+
+/* iscas boiando */
+.iscas figure { animation: boia 2.4s ease-in-out infinite; }
+@keyframes boia { 50% { transform: translateY(-6px); } }
+
+/* título das seções com sublinhado de linha de pesca */
+.titulo.visivel::after {
+  content: ""; display: block; height: 4px; width: min(260px, 60%); margin-top: 10px; transform-origin: 0 50%; transform: scaleX(0);
+  background: repeating-linear-gradient(90deg, var(--ouro) 0 12px, transparent 12px 18px);
+  animation: risca .9s ease-out .3s forwards;
+}
+@keyframes risca { to { transform: scaleX(1); } }
+
+@media (max-width: 760px) {
+  .logo-peixe { margin: -30px auto -40px; width: min(380px, 100%); }
+  .logo-texto { align-items: center; text-align: center; }
+  .hud-info { font-size: 13px; padding: 4px 8px; }
+  .hud-info span { font-size: 12px; }
+  .hud-estado { top: auto; bottom: 10px; }
+  .barra { width: 14px; }
+  .linha-rolagem { display: none; }
+  .cardume-trilho img { width: 100px; height: 50px; }
+}

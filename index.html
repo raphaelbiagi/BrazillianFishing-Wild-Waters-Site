@@ -1,0 +1,249 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Brazilian Fishing: Wild Waters</title>
+<meta name="description" content="Jogo 2D de pesca de barranco nos rios do Brasil. Pixel art, dourado, surubim e muita briga. Baixe o Alpha para Windows.">
+<meta property="og:title" content="Brazilian Fishing: Wild Waters">
+<meta property="og:description" content="Pesca de barranco nos rios do Brasil, em pixel art. Baixe o Alpha.">
+<meta property="og:image" content="img/fundo.png">
+<link rel="icon" href="img/fish/dourado.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Pixelify+Sans:wght@400;500;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+
+<!-- ========== MENU ========== -->
+<!-- linha de pesca que desce conforme rola a página -->
+<div class="linha-rolagem" aria-hidden="true"><i id="linhaRolagem"></i><img class="px" id="anzolRolagem" src="img/bait/minhoca.png" alt=""></div>
+
+<header class="nav" id="nav">
+  <a class="nav-logo" href="#topo" aria-label="Brazilian Fishing: Wild Waters">
+    <img src="img/fish/dourado.png" alt="" class="px">
+    <span>BRAZILIAN FISHING</span>
+  </a>
+  <nav class="nav-links">
+    <a href="#jogo">O jogo</a>
+    <a href="#peixes">Peixes</a>
+    <a href="#briga">A briga</a>
+    <a href="#rio">O rio</a>
+    <a class="btn btn-gold btn-small" href="#baixar">Baixar Alpha</a>
+  </nav>
+</header>
+
+<!-- ========== HERO ========== -->
+<section class="hero" id="topo">
+  <canvas class="hero-bg px" id="heroAgua" aria-hidden="true"></canvas>
+  <div class="hero-shade"></div>
+  <canvas id="particulas" aria-hidden="true"></canvas>
+
+  <div class="hero-inner">
+    <div class="logo">
+      <div class="logo-peixe" aria-hidden="true">
+        <canvas class="px" id="saltoLogo"></canvas>
+      </div>
+      <h1 class="logo-texto" id="logoTexto">
+        <span class="l1" data-t="BRAZILIAN">BRAZILIAN</span>
+        <span class="l2" data-t="FISHING">FISHING</span>
+        <span class="l3" data-t="WILD WATERS">WILD WATERS</span>
+      </h1>
+    </div>
+
+    <p class="hero-frase">Pesca de barranco nos rios do Brasil. Ande pela margem, jogue a isca, espere a pegada e <strong>brigue com o dourado</strong>.</p>
+
+    <div class="hero-botoes">
+      <a class="btn btn-gold btn-grande" href="#baixar">
+        <span class="btn-icone">&#9660;</span> Baixar o Alpha
+      </a>
+      <a class="btn btn-escuro btn-grande" href="#jogo">Ver o jogo</a>
+    </div>
+    <p class="hero-nota">Gratuito &middot; Windows &middot; Versão Alpha em desenvolvimento</p>
+  </div>
+
+  <div class="agua-faixa" aria-hidden="true"><div></div></div>
+</section>
+
+<!-- ========== O JOGO ========== -->
+<section class="secao" id="jogo">
+  <div class="conteudo">
+    <p class="selo reveal">COMO É</p>
+    <h2 class="titulo reveal">Três visões, uma pescaria</h2>
+    <p class="intro reveal">Cada momento da pescaria tem a sua câmera. O jogo troca de visão sozinho, do jeito que acontece na beira do rio.</p>
+
+    <div class="vistas">
+      <article class="vista reveal">
+        <div class="moldura moldura-rio"><img class="px" src="img/vista_rio.png" alt="Vista de cima do rio e da margem"></div>
+        <span class="numero">1</span>
+        <h3>O rio, de cima</h3>
+        <p>Ande pela margem até uma estaca de pesca. Escolha vara, equipamento e isca, mire e segure <kbd>Espaço</kbd> para carregar o arremesso.</p>
+      </article>
+
+      <article class="vista reveal">
+        <div class="moldura"><img class="px" src="img/fundo.png" alt="Vista em primeira pessoa olhando o rio com a vara em primeiro plano"></div>
+        <span class="numero">2</span>
+        <h3>A espera, em 1ª pessoa</h3>
+        <p>Olho no rio, vara na mão. Beliscadas, vara dobrando, garça passando. Fisgar na hora errada assusta o peixe.</p>
+      </article>
+
+      <article class="vista reveal">
+        <div class="moldura moldura-briga">
+          <canvas class="px" id="brigaCard" aria-label="Briga com o dourado, vista de cima"></canvas>
+        </div>
+        <span class="numero">3</span>
+        <h3>A briga, de cima</h3>
+        <p>Fisgou! A linha branca vai até a sombra do peixe. Recolha, solte fricção, aguente as corridas e leve ele até o passaguá.</p>
+      </article>
+    </div>
+  </div>
+</section>
+
+<!-- faixa de peixes nadando -->
+<div class="cardume" aria-hidden="true"><div class="cardume-trilho" id="cardume"></div></div>
+
+<!-- ========== PEIXES ========== -->
+<section class="secao secao-escura" id="peixes">
+  <div class="conteudo">
+    <p class="selo reveal">FAUNA</p>
+    <h2 class="titulo reveal">Cada peixe briga do seu jeito</h2>
+    <p class="intro reveal">Do lambari ladrão de isca ao surubim de 40 kg que esvazia o carretel. Passe o mouse e veja eles se mexerem.</p>
+
+    <div class="peixes" id="peixesGrade"></div>
+  </div>
+</section>
+
+<!-- ========== A BRIGA ========== -->
+<section class="secao" id="briga">
+  <div class="conteudo">
+    <p class="selo reveal">AO VIVO</p>
+    <h2 class="titulo reveal">Sinta a briga</h2>
+    <p class="intro reveal">Esta é a briga do jogo rodando aqui, com a mesma arte: o dourado corre, se sacode, salta e cansa até chegar no barranco.</p>
+
+    <div class="palco reveal">
+      <canvas class="px" id="brigaGrande" aria-label="Briga com o dourado rodando ao vivo"></canvas>
+      <div class="hud">
+        <div class="hud-info"><b id="hudPeixe">Dourado</b><span id="hudDist">25 m</span></div>
+        <div class="hud-estado" id="hudEstado">FISGOU!</div>
+        <div class="hud-tensao"><span>TENSÃO</span><div class="barra"><i id="hudTensao"></i></div></div>
+      </div>
+    </div>
+
+    <div class="numeros">
+      <div class="reveal"><b data-conta="6">0</b><span>espécies</span></div>
+      <div class="reveal"><b data-conta="40">0</b><span>kg o maior surubim</span></div>
+      <div class="reveal"><b data-conta="8">0</b><span>iscas</span></div>
+      <div class="reveal"><b data-conta="3">0</b><span>varas na água</span></div>
+    </div>
+
+    <p class="selo reveal" style="margin-top:70px">MECÂNICAS</p>
+    <h2 class="titulo reveal">Pescaria de verdade, sem complicar</h2>
+
+    <div class="recursos">
+      <div class="recurso reveal">
+        <div class="recurso-icone"><span>⚙</span></div>
+        <h3>Carretilha e fricção</h3>
+        <p>Manivela, marchas e fricção que mudam a briga. Aperte demais e a linha estoura; frouxo demais e o peixe leva tudo.</p>
+      </div>
+      <div class="recurso reveal">
+        <div class="recurso-icone"><img class="px" src="img/bait/minhoca.png" alt=""></div>
+        <h3>Iscas que mudam tudo</h3>
+        <p>Minhoca, milho, lambari, massa, fígado, tuvira... Cada isca interessa a espécies diferentes.</p>
+      </div>
+      <div class="recurso reveal">
+        <div class="recurso-icone"><span>Ⅲ</span></div>
+        <h3>Até três varas</h3>
+        <p>Finque os suportes no barranco e deixe três varas na água, cada uma com o seu equipamento e a sua isca.</p>
+      </div>
+      <div class="recurso reveal">
+        <div class="recurso-icone"><img class="px" src="img/fish/dourado_sombra.png" alt=""></div>
+        <h3>Peixe que nada de verdade</h3>
+        <p>Ele vira em curva, descansa, dispara numa corrida e cansa conforme o peso e a força que você faz.</p>
+      </div>
+      <div class="recurso reveal">
+        <div class="recurso-icone"><span>⤴</span></div>
+        <h3>Saltos do dourado</h3>
+        <p>O dourado salta para soltar o anzol. Linha frouxa no salto reto é perigo na certa.</p>
+      </div>
+      <div class="recurso reveal">
+        <div class="recurso-icone"><span>◍</span></div>
+        <h3>Passaguá</h3>
+        <p>Com o peixe cansado perto do barranco, pegue o passaguá e conduza ele até a rede.</p>
+      </div>
+    </div>
+
+    <div class="iscas reveal" id="iscasLinha" aria-label="Iscas do jogo"></div>
+  </div>
+</section>
+
+<!-- ========== O RIO ========== -->
+<section class="secao secao-rio" id="rio">
+  <div class="conteudo">
+    <p class="selo reveal">ONDE</p>
+    <h2 class="titulo reveal">Rio Dourados, Mato Grosso do Sul</h2>
+    <p class="intro reveal">O primeiro rio do jogo, de água barrenta e margem alta. Três spots, cada um com seus peixes.</p>
+
+    <div class="spots">
+      <div class="spot reveal">
+        <h3>Poço da Pedra</h3>
+        <p>Fundo logo perto da margem. O melhor lugar do surubim.</p>
+        <div class="spot-peixes"><img class="px" src="img/fish/surubim.png" alt="Surubim"><img class="px" src="img/fish/dourado.png" alt="Dourado"><img class="px" src="img/fish/piapara.png" alt="Piapara"></div>
+      </div>
+      <div class="spot reveal">
+        <h3>Barranco da Figueira</h3>
+        <p>Raso colado no barranco e canal fundo lá longe. Tem de tudo.</p>
+        <div class="spot-peixes"><img class="px" src="img/fish/dourado.png" alt="Dourado"><img class="px" src="img/fish/mandi.png" alt="Mandi"><img class="px" src="img/fish/piau_tres_pintas.png" alt="Piau"></div>
+      </div>
+      <div class="spot reveal">
+        <h3>Prainha de Areia</h3>
+        <p>Raso e comprido. Bom para começar e pegar lambari.</p>
+        <div class="spot-peixes"><img class="px" src="img/fish/lambari.png" alt="Lambari"><img class="px" src="img/fish/piau_tres_pintas.png" alt="Piau"></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ========== BAIXAR ========== -->
+<section class="secao secao-baixar" id="baixar">
+  <div class="conteudo">
+    <p class="selo reveal">JOGUE AGORA</p>
+    <h2 class="titulo reveal">Baixe o Alpha</h2>
+
+    <div class="baixar-caixa reveal">
+      <div class="baixar-peixe"><img class="px" src="img/fish/dourado.png" alt="Dourado"></div>
+      <div class="baixar-info">
+        <h3>Brazilian Fishing: Wild Waters <small>Alpha</small></h3>
+        <ul>
+          <li>Windows 10 ou 11 (64 bits)</li>
+          <li>Download de ~36 MB (arquivo .zip com o jogo dentro)</li>
+          <li>Não precisa instalar: extraia e abra o <b>.exe</b></li>
+        </ul>
+        <a class="btn btn-gold btn-grande" id="btnBaixar" href="downloads/Brazilian-Fishing-Wild-Waters-Alpha.zip" download>
+          <span class="btn-icone">&#9660;</span> Baixar para Windows
+        </a>
+      </div>
+    </div>
+
+    <div class="passos reveal">
+      <div><b>1</b><p>Baixe e extraia o arquivo .zip.</p></div>
+      <div><b>2</b><p>Abra o <em>Brazilian-Fishing.exe</em>.</p></div>
+      <div><b>3</b><p>Se o Windows avisar, clique em <em>Mais informações</em> e depois em <em>Executar assim mesmo</em>. É normal em jogos novos, ainda sem assinatura.</p></div>
+      <div><b>4</b><p>Aperte <kbd>F11</kbd> para tela cheia e boa pescaria!</p></div>
+    </div>
+
+    <p class="aviso reveal">Isto é uma versão Alpha: pode ter bugs e coisas faltando. Se achar algum problema, conte pra gente.</p>
+  </div>
+</section>
+
+<footer class="rodape">
+  <img class="px" src="img/fish/surubim.png" alt="">
+  <p><b>Brazilian Fishing: Wild Waters</b> &middot; Feito com carinho no Brasil</p>
+  <p class="pequeno">&copy; 2026 &middot; Versão Alpha</p>
+</footer>
+
+<script src="js/briga_dados.js"></script>
+<script src="js/briga.js"></script>
+<script src="js/site.js"></script>
+</body>
+</html>
