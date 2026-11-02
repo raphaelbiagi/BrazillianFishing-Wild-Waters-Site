@@ -15,10 +15,15 @@
     { img: 'mandi', nome: 'Mandi', kg: '0,1 a 0,6 kg', forca: 2,
       txt: 'Bagre de fundo, cuidado com o ferrão. Mexe devagar, vai esticando a linha e só depois leva firme.' },
     { img: 'lambari', nome: 'Lambari', kg: '20 a 80 g', forca: 1,
-      txt: 'Pequeno e ligeiro, vive no raso perto do barranco. Belisca sem parar e rouba a isca.' }
+      txt: 'Pequeno e ligeiro, vive no raso perto do barranco. Belisca sem parar e rouba a isca.' },
+    { img: 'piracanjuba', nome: 'Piracanjuba', kg: 'Novo!', forca: 4, novo: true,
+      txt: 'Gosta de água corrente e de galhada. Rápida, sai numa arrancada e vira de repente. Quem pesca sabe: ela não facilita.' },
+    { img: 'corimba', nome: 'Curimba', kg: 'Novo!', forca: 3, novo: true,
+      txt: 'Peixe de fundo, de puxadas firmes e teimosas. Dizem que o anzol certo faz toda a diferença com ela.' }
   ];
   var ISCAS = [['minhoca', 'Minhoca'], ['milho', 'Milho'], ['massa', 'Massa'], ['soja', 'Soja'],
-               ['figado', 'Fígado'], ['lambari', 'Lambari'], ['tuvira', 'Tuvira'], ['piau', 'Piau']];
+               ['figado', 'Fígado'], ['lambari', 'Lambari'], ['tuvira', 'Tuvira'], ['piau', 'Piau'],
+               ['tripa_frango', 'Tripa de frango', true], ['lambari_cortado', 'Lambari cortado', true]];
 
   var $ = function (id) { return document.getElementById(id); };
 
@@ -26,12 +31,12 @@
   var grade = $('peixesGrade');
   PEIXES.forEach(function (p) {
     var el = document.createElement('article');
-    el.className = 'peixe reveal';
+    el.className = 'peixe reveal' + (p.novo ? ' novo' : '');
     var bolinhas = '';
     for (var i = 0; i < 5; i++) bolinhas += '<i class="' + (i < p.forca ? 'on' : '') + '"></i>';
     el.innerHTML =
       '<div class="peixe-arte"><img src="img/fish/' + p.img + '.png" alt="' + p.nome + '"></div>' +
-      '<h3>' + p.nome + '</h3><span class="peso">' + p.kg + '</span>' +
+      '<h3>' + p.nome + (p.novo ? ' <em class="tag-novo">NOVO</em>' : '') + '</h3><span class="peso">' + p.kg + '</span>' +
       '<p>' + p.txt + '</p>' +
       '<div class="forca">Briga <span>' + bolinhas + '</span></div>';
     grade.appendChild(el);

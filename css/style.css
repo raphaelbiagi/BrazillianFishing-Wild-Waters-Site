@@ -378,3 +378,9 @@ kbd {
   .linha-rolagem { display: none; }
   .cardume-trilho img { width: 100px; height: 50px; }
 }
+
+/* selo de novidade */
+.tag-novo { display: inline-block; vertical-align: middle; margin-left: 6px; padding: 2px 7px; font-style: normal; font-size: 12px; letter-spacing: 1px;
+  color: var(--noite); background: var(--ouro); border: 2px solid var(--ouro-escuro); box-shadow: 2px 2px 0 #000a; }
+.peixe.novo { border-color: var(--ouro-escuro); }
+.iscas figcaption .tag-novo { display: block; margin: 4px auto 0; width: max-content; }
